@@ -267,7 +267,7 @@ def make_chime(freq):
         for c in range(channels):
             samples.append(value)
     chime = pygame.mixer.Sound(buffer = samples)
-    chime.set_valume(CHIME_VOLUME)
+    chime.set_volume(CHIME_VOLUME)
     return chime
 
 def make_chimes():
@@ -309,7 +309,7 @@ def shade_moon(disc, phase):
             y = MOON_RADIUS + row
             pygame.draw.line(shadow, MOON_SHADOW, (MOON_RADIUS + dark_from, y), (MOON_RADIUS + dark_to, y))
             
-    disc.blit(shadow(0, 0))
+    disc.blit(shadow, (0, 0))
     return disc
 
 # Breathing guide- press B to  get breathe in for 4 sec, out for 6 sec
@@ -721,7 +721,7 @@ def draw_hud(surface, caught, revealed_count, moon_label):
     draw_text(surface, "Moonlight Serenity", TITLE_FONT, 28, 20, 175)
     draw_text(surface, f"wishes caught: {caught}", SMALL_FONT, 30, 62, 150)
     draw_text(surface, f"constellations: {revealed_count} / {len(CONSTELLATIONS)}", SMALL_FONT, 30, 84, 150)
-    draw_text(surface, "P: Pause     M: Music   B: Breathe    ESC: Leave", SMALL_FONT, WIDTH - 300, HEIGHT - 30, 100)
+    draw_text(surface, "P: Pause     M: Music   B: Breathe    ESC: Leave", SMALL_FONT, WIDTH - 330, HEIGHT - 30, 100)
     draw_text(surface, moon_label, SMALL_FONT, MOON_X, MOON_Y + MOON_RADIUS + 22, 110, center = True)
     
 def start_music():
