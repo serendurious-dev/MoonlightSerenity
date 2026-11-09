@@ -283,6 +283,41 @@ KNOWN_NEW_MOON = datetime.datetime(2000, 1, 6, 18, 14, tzinfo = datetime.timezon
 MOON_SHADOW = (16, 20, 40, 225)
 PHASE_NAMES = ["new moon", "waxing crescent", "first quarter", "waxing gibbous", "full moon", "waning gibbous", "last quarter", "waning crescent"]
 
+def get_moon_phase():
+    """ 0 = new moon, 0.5 = full moon, almost 1 = new again"""
+    now = datetime.datetime.now(datetime.timezone.utc)
+    days = (now - KNOWN_NEW_MOON).total_seconds() / 86400
+    return (days % SYNODIC_MONTH) / SYNODIC_MONTH
+
+def phase_name(phase):
+    return PHASE_NAMES[int(phase * 8 + 0.5) % 8]
+
+def moon_brightness(phase):
+    """How much moon is lit- 0 at new moon, 1 at full moon"""
+    return(1 - math.cos(phase * 2 * math.pi)) / 2
+
+def shade_moon(disc, phase):
+    shadow = pygame.Surface(disc.get_size(), pygame.SRCALPHA)
+    for row in range(-MOON_RADIUS, MOON_RADIUS):
+        half = math.sqrt(MOON_RADIUS ** 2 - (row + 0.5) ** 2)
+        edge = half * math.cos(phase * 2 * math.pi)
+        if phase < 0.5:
+            dark_from, dark_to = -half, edge
+        else:
+            dark_from, dark_to = -edge, half
+        if dark_to > dark_from:
+            y = MOON_RADIUS + row
+            pygame.draw.line(shadow, MOON_SHADOW, (MOON_RADIUS + dark_from, y), (MOON_RADIUS + dark_to, y))
+            
+    disc.blit(shadow(0, 0))
+    return disc
+
+# Breathing guide- press B to  get breathe in for 4 sec, out for 6 sec
+
+BREATHE_IN = 240
+BREATHE_OUT = 360
+
+def draw_breathing(surface, timer):
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
