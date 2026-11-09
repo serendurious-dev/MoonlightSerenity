@@ -336,6 +336,22 @@ def draw_breathing(surface, timer):
 
 AURORA_GREEN = (120, 255, 190)
 AURORA_VIOLET = (170, 120, 255)
+
+def make_aurora_strip():
+    strip = pygame.Surface((4, 220), pygame.SRCALPHA)
+    for y in range(220):
+        t = y / 220
+        color = blend(AURORA_VIOLET, AURORA_GREEN, t)
+        alpha = int(255 * t * t * (1 - t) * 6.75)
+        pygame.draw.line(strip, with_alpha(color, min(255, alpha)), (0, y), (3, y))
+    return strip
+
+def draw_aurora(surface, strip, age):
+    fade = min(1.0, age / 600)
+    drift = age * 0.01
+    for x in range(0, WIDTH, 4):
+        wave = math.sin(x * 0.006 + drift) * 40 + math.sin(x * 0.013 - drift * 1.7) * 20
+        shine = 0.5 + 0.5 * math.sin(x * 0.01 + drift * 2)   
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
