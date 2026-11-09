@@ -261,7 +261,28 @@ def make_chime(freq):
     samples = array("h")                                                        # "h" - whole numbers that fit in 16 bits
     for i in range(int(rate * 1.4)):
         t = i / rate
-        fade = math.exp()
+        fade = math.exp(-t * 3.2) * min(1.0, t * 200)
+        wave = math.sin(2 * math.pi * freq * t) + 0.3 * math.sin(2 * math.pi * freq * 2 * t)
+        value = int(wave / 1.3 * fade * 26000)
+        for c in range(channels):
+            samples.append(value)
+    chime = pygame.mixer.Sound(buffer = samples)
+    chime.set_valume(CHIME_VOLUME)
+    return chime
+
+def make_chimes():
+    """Returns a list of notes, or an empty list if there is no sound"""
+    if not pygame.mixer.get_init() or pygame.mixer.get_init()[1] != -16:
+        return []
+    return [make_chime(freq) for freq in CHIME_NOTES]
+
+# REAL MOON PHASE- your moon matches the moon outside the window
+
+SYNODIC_MONTH = 29.530588853                                                # days from one new moon to the next
+KNOWN_NEW_MOON = datetime.datetime(2000, 1, 6, 18, 14, tzinfo = datetime.timezone.utc)
+MOON_SHADOW = (16, 20, 40, 225)
+PHASE_NAMES = ["new moon", "waxing crescent", "first quarter", "waxing gibbous", "full moon", "waning gibbous", "last quarter", "waning crescent"]
+
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
