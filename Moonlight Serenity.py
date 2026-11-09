@@ -204,11 +204,11 @@ def make_moon_disc():
         disc.blit(glow, (MOON_RADIUS + sea[0] - sea[2], MOON_RADIUS + sea[1] - sea[2]))
     return disc
 
-def draw_moon(surface, disc, pulse):
+def draw_moon(surface, disc, pulse, light = 1.0):
     """Moon with a large soft halo which breathes slowly"""
     breathe = math.sin(pulse) * 8
-    draw_glow(surface, MOON_X, MOON_Y, 200, (130, 145, 210), int(55 + breathe))
-    draw_glow(surface, MOON_X, MOON_Y, 95, (230, 225, 210), int(95 + breathe))
+    draw_glow(surface, MOON_X, MOON_Y, 200, (130, 145, 210), int((55 + breathe) * light))
+    draw_glow(surface, MOON_X, MOON_Y, 95, (230, 225, 210), int((95 + breathe) * light))
     surface.blit(disc, (MOON_X - MOON_RADIUS, MOON_Y - MOON_RADIUS))
     
 def make_cloud_image(width, height):
@@ -351,7 +351,9 @@ def draw_aurora(surface, strip, age):
     drift = age * 0.01
     for x in range(0, WIDTH, 4):
         wave = math.sin(x * 0.006 + drift) * 40 + math.sin(x * 0.013 - drift * 1.7) * 20
-        shine = 0.5 + 0.5 * math.sin(x * 0.01 + drift * 2)   
+        shine = 0.5 + 0.5 * math.sin(x * 0.01 + drift * 2)
+        strip.set_alpha(int(90 * fade * shine))
+        surface.blit(strip, (x, 30 + wave))
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
@@ -715,11 +717,12 @@ def draw_message(surface, message):
     fade = min(1.0, shown / 30, message["timer"] / 30)
     draw_text(surface, message["text"], FONT, WIDTH // 2, HEIGHT - 60, int(230 * fade), center = True)
 
-def draw_hud(surface, caught, revealed_count):
+def draw_hud(surface, caught, revealed_count, moon_label):
     draw_text(surface, "Moonlight Serenity", TITLE_FONT, 28, 20, 175)
     draw_text(surface, f"wishes caught: {caught}", SMALL_FONT, 30, 62, 150)
     draw_text(surface, f"constellations: {revealed_count} / {len(CONSTELLATIONS)}", SMALL_FONT, 30, 84, 150)
-    draw_text(surface, "P: Pause     M: Music    ESC: Leave", SMALL_FONT, WIDTH - 300, HEIGHT - 30, 100)
+    draw_text(surface, "P: Pause     M: Music   B: Breathe    ESC: Leave", SMALL_FONT, WIDTH - 300, HEIGHT - 30, 100)
+    draw_text(surface, moon_label, SMALL_FONT, MOON_X, MOON_Y + MOON_RADIUS + 22, 110, center = True)
     
 def start_music():
     """Play music.mp3 on loop if exists. Return True if music is playing"""
@@ -746,7 +749,12 @@ def toggle_music(music_loaded, music_on):
 def main():
     sky = make_sky()
     dawn_scene = make_dawn_scene()
-    moon_disc = make_moon_disc()
+    moon_phase = get_moon_phase()
+    moon_disc = shade_moon(make_moon_disc(), moon_phase)
+    moon_light = 0.25 + 0.75 * moon_brightness(moon_phase)
+    moon_label = f"tonight: {phase_name(moon_phase)}"
+    chimes = make_chimes()
+    auror= make_aurora_strip()
     twinkle_stars = make_twinkle_stars(90)
     clouds = [make_cloud() for i in range(4)]
     fx = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)           # layer for see through lines
@@ -766,6 +774,10 @@ def main():
     paused = False
     ending = False                                                  # becomes true when sunrise starts
     end_timer = 0
+    sound_on = True
+    breathing = False
+    breath_timer = 0
+    aurora_age = 0
     music_loaded = start_music()
     music_on = music_loaded
 
