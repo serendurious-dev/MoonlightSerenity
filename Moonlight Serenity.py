@@ -754,7 +754,7 @@ def main():
     moon_light = 0.25 + 0.75 * moon_brightness(moon_phase)
     moon_label = f"tonight: {phase_name(moon_phase)}"
     chimes = make_chimes()
-    auror= make_aurora_strip()
+    aurora = make_aurora_strip()
     twinkle_stars = make_twinkle_stars(90)
     clouds = [make_cloud() for i in range(4)]
     fx = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)           # layer for see through lines
@@ -802,7 +802,11 @@ def main():
                 if event.key == pygame.K_p:
                     paused = not paused
                 elif event.key == pygame.K_m:
+                    sound_on = not sound_on
                     music_on = toggle_music(music_loaded, music_on)
+                elif event.key == pygame.K_b:
+                    breathing = not breathing
+                    breath_timer = 0
                     
                     
         #  All updates~
@@ -827,6 +831,8 @@ def main():
                     star["caught"] = True
                     caught += 1
                     make_catch_effect(star["x"], star["y"], star["color"], rings, particles)
+                    if chimes and sound_on:
+                        random.choice(chimes).play()
                     if caught % STARS_PER_CONSTELLATION == 0:
                         reveal_next_constellation(revealed, message)
                 elif star["y"] > HEIGHT:
@@ -854,6 +860,13 @@ def main():
                 entry["age"] += 1
             if message["timer"] > 0:
                 message["timer"] -= 1
+            if breathing:
+                breath_timer += 1
+                
+            if len(revealed) == len(CONSTELLATIONS):
+                aurora_age +=1
+                if aurora_age == 360:
+                    show_message(message, "All 12 signs are with you now... and the sky is shining only for you.", 360)
                 
         if ending:
             end_timer += 1
@@ -865,10 +878,13 @@ def main():
         # Draw~ Back to front
                 
         screen.blit(sky, (0, 0))
+        if aurora_age > 0:
+            draw_aurora(screen, aurora, aurora_age)
+            
         draw_twinkle_stars(screen, twinkle_stars)
         for entry in revealed:
             draw_constellation(screen, entry, entry["index"] == len(revealed) - 1)
-        draw_moon(screen, moon_disc, moon_pulse)
+        draw_moon(screen, moon_disc, moon_pulse, moon_light)
         for cloud in clouds:
                 draw_cloud(screen, cloud)
         for landing in landings:
@@ -891,7 +907,9 @@ def main():
         if ending:
             draw_sunrise(screen, dawn_scene, moon_disc, min(1.0, end_timer / SUNRISE_FRAMES))
         else:
-            draw_hud(screen, caught, len(revealed))
+            if breathing:
+                draw_breathing(screen, breath_timer)
+            draw_hud(screen, caught, len(revealed), moon_label)
             draw_message(screen, message)
                     
         if paused:
