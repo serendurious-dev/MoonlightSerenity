@@ -332,28 +332,6 @@ def draw_breathing(surface, timer):
     pygame.draw.circle(surface, (200, 215, 255), (WIDTH // 2, HEIGHT // 2), radius, 1)
     draw_text(surface, word, FONT, WIDTH // 2, HEIGHT // 2 +150, 200, center = True)
     
-# AURORA - appeards when all 12 constellations are in the sky
-
-AURORA_GREEN = (120, 255, 190)
-AURORA_VIOLET = (170, 120, 255)
-
-def make_aurora_strip():
-    strip = pygame.Surface((4, 220), pygame.SRCALPHA)
-    for y in range(220):
-        t = y / 220
-        color = blend(AURORA_VIOLET, AURORA_GREEN, t)
-        alpha = int(255 * t * t * (1 - t) * 6.75)
-        pygame.draw.line(strip, with_alpha(color, min(255, alpha)), (0, y), (3, y))
-    return strip
-
-def draw_aurora(surface, strip, age):
-    fade = min(1.0, age / 600)
-    drift = age * 0.01
-    for x in range(0, WIDTH, 4):
-        wave = math.sin(x * 0.006 + drift) * 40 + math.sin(x * 0.013 - drift * 1.7) * 20
-        shine = 0.5 + 0.5 * math.sin(x * 0.01 + drift * 2)
-        strip.set_alpha(int(90 * fade * shine))
-        surface.blit(strip, (x, 30 + wave))
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
@@ -672,7 +650,7 @@ def draw_sunrise(surface, scene, moon_disc, progress):
     scene["sky"].set_alpha(int(255 * smooth))
     surface.blit(scene["sky"], (0, 0))
     
-    moon_disc.set_alpha(int(255 - 175 * smooth))
+    moon_disc.set_alpha(int(255 * (1 - smooth)))
     surface.blit(moon_disc, (MOON_X - MOON_RADIUS, MOON_Y - MOON_RADIUS))
     moon_disc.set_alpha(255)
     
@@ -750,11 +728,11 @@ def main():
     sky = make_sky()
     dawn_scene = make_dawn_scene()
     moon_phase = get_moon_phase()
-    moon_disc = shade_moon(make_moon_disc(), moon_phase)
-    moon_light = 0.25 + 0.75 * moon_brightness(moon_phase)
+    shown_phase= min(max(moon_phase, 0.07), 0.93)
+    moon_disc = shade_moon(make_moon_disc(), shown_phase)
+    moon_light = 0.8 + 0.2 * moon_brightness(moon_phase)
     moon_label = f"tonight: {phase_name(moon_phase)}"
     chimes = make_chimes()
-    aurora = make_aurora_strip()
     twinkle_stars = make_twinkle_stars(90)
     clouds = [make_cloud() for i in range(4)]
     fx = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)           # layer for see through lines
@@ -777,7 +755,7 @@ def main():
     sound_on = True
     breathing = False
     breath_timer = 0
-    aurora_age = 0
+    all_signs_shown = False
     music_loaded = start_music()
     music_on = music_loaded
 
@@ -863,10 +841,9 @@ def main():
             if breathing:
                 breath_timer += 1
                 
-            if len(revealed) == len(CONSTELLATIONS):
-                aurora_age +=1
-                if aurora_age == 360:
-                    show_message(message, "All 12 signs are with you now... and the sky is shining only for you.", 360)
+            if len(revealed) == len(CONSTELLATIONS) and not all_signs_shown and message["timer"] == 0:
+                all_signs_shown = True
+                show_message(message, "All 12 signs are with you now... and the sky is shining only for you.", 360)
                 
         if ending:
             end_timer += 1
@@ -878,9 +855,6 @@ def main():
         # Draw~ Back to front
                 
         screen.blit(sky, (0, 0))
-        if aurora_age > 0:
-            draw_aurora(screen, aurora, aurora_age)
-            
         draw_twinkle_stars(screen, twinkle_stars)
         for entry in revealed:
             draw_constellation(screen, entry, entry["index"] == len(revealed) - 1)
