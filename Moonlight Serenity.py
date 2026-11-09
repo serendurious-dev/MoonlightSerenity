@@ -318,6 +318,24 @@ BREATHE_IN = 240
 BREATHE_OUT = 360
 
 def draw_breathing(surface, timer):
+    cycle = timer % (BREATHE_IN + BREATHE_OUT)
+    if cycle < BREATHE_IN:
+        t = cycle / BREATHE_IN
+        word = "breathe in..."
+    else:
+        t = 1 - (cycle - BREATHE_IN) / BREATHE_OUT
+        word = "breathe out..."
+    t = t * t * (3 - 2 * t)
+    radius = int(40 + 70 * t)
+    glow_radius = radius * 2 // 4 * 4
+    draw_glow(surface, WIDTH // 2, HEIGHT // 2, glow_radius, (170, 200, 255), 70)
+    pygame.draw.circle(surface, (200, 215, 255), (WIDTH // 2, HEIGHT // 2), radius, 1)
+    draw_text(surface, word, FONT, WIDTH // 2, HEIGHT // 2 +150, 200, center = True)
+    
+# AURORA - appeards when all 12 constellations are in the sky
+
+AURORA_GREEN = (120, 255, 190)
+AURORA_VIOLET = (170, 120, 255)
     
     
 # PLAYER, SHOOTING STARS AND EFFECTS
