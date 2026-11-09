@@ -458,54 +458,41 @@ start index and end index are tuples that connect them
 
 CONSTELLATIONS = [
     {"name": "Pisces", "meaning": "the two fish",
-     "points": [(0.85, 0.70), (0.95, 0.62), (0.93, 0.50), (0.82, 0.48), (0.75, 0.58),
-                (0.60, 0.66), (0.42, 0.74), (0.22, 0.84), (0.05, 0.92), (0.10, 0.65),
-                (0.15, 0.40), (0.12, 0.18), (0.22, 0.08), (0.25, 0.22)],
-     "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0), (4, 5), (5, 6), (6, 7), (7, 8),
-               (8, 9), (9, 10), (10, 11), (11, 12), (12, 13), (13, 10)]},
+    "points": [(0.85, 0.70), (0.95, 0.62), (0.93, 0.50), (0.82, 0.48), (0.75, 0.58), (0.60, 0.66), (0.42, 0.74), (0.22, 0.84), (0.05, 0.92), (0.10, 0.65),(0.15, 0.40), (0.12, 0.18), (0.22, 0.08), (0.25, 0.22)],
+    "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10), (10, 11), (11, 12), (12, 13), (13, 10)]},
     {"name": "Aries", "meaning": "the ram",
-     "points": [(0.10, 0.60), (0.55, 0.35), (0.75, 0.40), (0.85, 0.50)],
-     "lines": [(0, 1), (1, 2), (2, 3)]},
+    "points": [(0.10, 0.60), (0.55, 0.35), (0.75, 0.40), (0.85, 0.50)],
+    "lines": [(0, 1), (1, 2), (2, 3)]},
     {"name": "Taurus", "meaning": "the bull",
-     "points": [(0.55, 0.60), (0.45, 0.50), (0.35, 0.25), (0.62, 0.48), (0.85, 0.20),
-                (0.75, 0.85), (0.90, 0.95)],
-     "lines": [(0, 1), (1, 2), (0, 3), (3, 4), (0, 5), (5, 6)]},
+    "points": [(0.55, 0.60), (0.45, 0.50), (0.35, 0.25), (0.62, 0.48), (0.85, 0.20), (0.75, 0.85), (0.90, 0.95)],
+    "lines": [(0, 1), (1, 2), (0, 3), (3, 4), (0, 5), (5, 6)]},
     {"name": "Gemini", "meaning": "the twins",
-     "points": [(0.20, 0.10), (0.30, 0.45), (0.38, 0.88), (0.45, 0.14), (0.56, 0.50),
-                (0.72, 0.90), (0.10, 0.50), (0.75, 0.40)],
-     "lines": [(0, 1), (1, 2), (3, 4), (4, 5), (0, 3), (1, 6), (4, 7)]},
+    "points": [(0.20, 0.10), (0.30, 0.45), (0.38, 0.88), (0.45, 0.14), (0.56, 0.50), (0.72, 0.90), (0.10, 0.50), (0.75, 0.40)],
+    "lines": [(0, 1), (1, 2), (3, 4), (4, 5), (0, 3), (1, 6), (4, 7)]},
     {"name": "Cancer", "meaning": "the crab",
-     "points": [(0.50, 0.55), (0.48, 0.30), (0.45, 0.08), (0.20, 0.90), (0.82, 0.85)],
-     "lines": [(0, 1), (1, 2), (0, 3), (0, 4)]},
+    "points": [(0.50, 0.55), (0.48, 0.30), (0.45, 0.08), (0.20, 0.90), (0.82, 0.85)],
+    "lines": [(0, 1), (1, 2), (0, 3), (0, 4)]},
     {"name": "Leo", "meaning": "the lion",
-     "points": [(0.30, 0.75), (0.30, 0.55), (0.38, 0.38), (0.30, 0.20), (0.18, 0.12),
-                (0.12, 0.25), (0.92, 0.60), (0.65, 0.45), (0.65, 0.68)],
-     "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (2, 7), (7, 6), (6, 8), (8, 0)]},
+    "points": [(0.30, 0.75), (0.30, 0.55), (0.38, 0.38), (0.30, 0.20), (0.18, 0.12), (0.12, 0.25), (0.92, 0.60), (0.65, 0.45), (0.65, 0.68)],
+    "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (2, 7), (7, 6), (6, 8), (8, 0)]},
     {"name": "Virgo", "meaning": "the maiden",
-     "points": [(0.55, 0.95), (0.45, 0.65), (0.30, 0.50), (0.10, 0.45), (0.50, 0.40),
-                (0.60, 0.15), (0.80, 0.30), (0.75, 0.60)],
-     "lines": [(0, 1), (1, 2), (2, 3), (1, 4), (4, 5), (4, 6), (6, 7)]},
+    "points": [(0.55, 0.95), (0.45, 0.65), (0.30, 0.50), (0.10, 0.45), (0.50, 0.40), (0.60, 0.15), (0.80, 0.30), (0.75, 0.60)],
+    "lines": [(0, 1), (1, 2), (2, 3), (1, 4), (4, 5), (4, 6), (6, 7)]},
     {"name": "Libra", "meaning": "the scales",
-     "points": [(0.50, 0.10), (0.20, 0.45), (0.80, 0.40), (0.30, 0.85), (0.75, 0.80)],
-     "lines": [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4)]},
+    "points": [(0.50, 0.10), (0.20, 0.45), (0.80, 0.40), (0.30, 0.85), (0.75, 0.80)],
+    "lines": [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4)]},
     {"name": "Scorpius", "meaning": "the scorpion",
-     "points": [(0.05, 0.15), (0.12, 0.30), (0.10, 0.45), (0.30, 0.40), (0.42, 0.50),
-                (0.50, 0.68), (0.55, 0.85), (0.70, 0.92), (0.85, 0.85), (0.90, 0.70),
-                (0.82, 0.60)],
-     "lines": [(0, 1), (1, 2), (1, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10)]},
+    "points": [(0.05, 0.15), (0.12, 0.30), (0.10, 0.45), (0.30, 0.40), (0.42, 0.50), (0.50, 0.68), (0.55, 0.85), (0.70, 0.92), (0.85, 0.85), (0.90, 0.70), (0.82, 0.60)],
+    "lines": [(0, 1), (1, 2), (1, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10)]},
     {"name": "Sagittarius", "meaning": "the archer",
-     "points": [(0.20, 0.50), (0.35, 0.35), (0.55, 0.30), (0.60, 0.50), (0.45, 0.60),
-                (0.25, 0.75), (0.50, 0.80), (0.45, 0.10), (0.80, 0.40)],
-     "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0), (0, 5), (5, 6), (6, 3), (1, 7),
-               (7, 2), (3, 8)]},
+    "points": [(0.20, 0.50), (0.35, 0.35), (0.55, 0.30), (0.60, 0.50), (0.45, 0.60), (0.25, 0.75), (0.50, 0.80), (0.45, 0.10), (0.80, 0.40)],
+    "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0), (0, 5), (5, 6), (6, 3), (1, 7), (7, 2), (3, 8)]},
     {"name": "Capricornus", "meaning": "the sea-goat",
-     "points": [(0.10, 0.20), (0.20, 0.35), (0.45, 0.75), (0.60, 0.80), (0.85, 0.45),
-                (0.95, 0.30), (0.60, 0.40)],
-     "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 1)]},
+    "points": [(0.10, 0.20), (0.20, 0.35), (0.45, 0.75), (0.60, 0.80), (0.85, 0.45), (0.95, 0.30), (0.60, 0.40)],
+    "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 1)]},
     {"name": "Aquarius", "meaning": "the water-bearer",
-     "points": [(0.15, 0.20), (0.30, 0.30), (0.50, 0.25), (0.60, 0.40), (0.55, 0.60),
-                (0.70, 0.75), (0.85, 0.90), (0.40, 0.70), (0.30, 0.90)],
-     "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (4, 7), (7, 8)]},
+    "points": [(0.15, 0.20), (0.30, 0.30), (0.50, 0.25), (0.60, 0.40), (0.55, 0.60), (0.70, 0.75), (0.85, 0.90), (0.40, 0.70), (0.30, 0.90)],
+    "lines": [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (4, 7), (7, 8)]},
 ]
 
 # Top-left corner (x, y) of the box where each constellation appears
@@ -520,8 +507,21 @@ def reveal_next_constellation(revealed, message):
         revealed.append({"index": index, "age": 0})
         data = CONSTELLATIONS[index]
         show_message(message, f"{data['name']} has appeared in your sky - {data['meaning']}.", 300)
+        
+# After completing all 12 signs, the glow one by one, then the moon becomes full
 
-def draw_constellation(surface, entry, is_newest):
+WAVE_GAP = 30
+WAVE_GLOW = 90
+MOON_FILL_START = WAVE_GAP * 12 + WAVE_GLOW
+MOON_FILL_FRAMES = 360
+
+def sign_shine(index, gift_timer):
+    t = (gift_timer - index * WAVE_GAP) / WAVE_GLOW
+    if 0 < t < 1:
+        return math.sin(t * math.pi)
+    return 0.0
+
+def draw_constellation(surface, entry, is_newest, shine = 0.0):
     data = CONSTELLATIONS[entry["index"]]
     left, top = SKY_SPOTS[entry["index"]]
     # convert 0..1 box positions into screen positions (list comprehension)
@@ -532,6 +532,7 @@ def draw_constellation(surface, entry, is_newest):
         line_color = (125, 140, 200)
     else:
         line_color = (80, 92, 140)               # older constellations stay softer
+    line_color = blend(line_color, (210, 220, 255),  shine)
 
     # lines are drawn one after another, like someone tracing them
     total = len(data["lines"])
@@ -550,13 +551,17 @@ def draw_constellation(surface, entry, is_newest):
     # the stars of the constellation fade in
     star_alpha = int(220 * progress)
     for point in points:
-        draw_glow(surface, point[0], point[1], 7, (225, 232, 255), star_alpha)
+        for point in points:
+            draw_glow(surface, point[0], point[1], 7, (225, 232, 255), star_alpha)
+            if shine > 0:
+                draw_glow(surface, point[0], point[1], 16, (200, 215, 255), int(150 * shine))
 
     # the name~ bright while new, then it stays as a faint label
     if entry["age"] < 480:
         label_alpha = int(220 * progress)
     else:
         label_alpha = max(70, 220 - (entry["age"] - 480))
+    label_alpha = max(label_alpha, int(230 * shine))
     draw_text(surface, data["name"], SMALL_FONT, left + BOX_WIDTH // 2, top + BOX_HEIGHT + 14, label_alpha, center=True)
 
 
@@ -730,7 +735,8 @@ def main():
     moon_phase = get_moon_phase()
     shown_phase= min(max(moon_phase, 0.07), 0.93)
     moon_disc = shade_moon(make_moon_disc(), shown_phase)
-    moon_light = 0.8 + 0.2 * moon_brightness(moon_phase)
+    start_light = 0.8 + 0.2 * moon_brightness(moon_phase)         # the halo stays soft and bright
+    moon_light = start_light
     moon_label = f"tonight: {phase_name(moon_phase)}"
     chimes = make_chimes()
     twinkle_stars = make_twinkle_stars(90)
@@ -756,6 +762,7 @@ def main():
     breathing = False
     breath_timer = 0
     all_signs_shown = False
+    gift_timer = 0
     music_loaded = start_music()
     music_on = music_loaded
 
