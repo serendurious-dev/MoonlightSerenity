@@ -551,10 +551,9 @@ def draw_constellation(surface, entry, is_newest, shine = 0.0):
     # the stars of the constellation fade in
     star_alpha = int(220 * progress)
     for point in points:
-        for point in points:
-            draw_glow(surface, point[0], point[1], 7, (225, 232, 255), star_alpha)
-            if shine > 0:
-                draw_glow(surface, point[0], point[1], 16, (200, 215, 255), int(150 * shine))
+        draw_glow(surface, point[0], point[1], 7, (225, 232, 255), star_alpha)
+        if shine > 0:
+            draw_glow(surface, point[0], point[1], 16, (200, 215, 255), int(150 * shine))
 
     # the name~ bright while new, then it stays as a faint label
     if entry["age"] < 480:
@@ -681,7 +680,7 @@ def draw_sunrise(surface, scene, moon_disc, progress):
     if progress > 0.5:
         text_alpha = int(235 * (progress - 0.5) * 2)
         draw_text(surface, "The night is over, but the stars will always be in your heart.", TITLE_FONT, WIDTH // 2, 150, text_alpha, center = True)
-        draw_text(surface, "A new day is waiting for you, with new ray of hope.", FONT, WIDTH // 2, 195, text_alpha, center = True)
+        draw_text(surface, "A new day is waiting for you, with a new ray of hope.", FONT, WIDTH // 2, 195, text_alpha, center = True)
         draw_text(surface, "And remember, you can always come back to wish upon a falling star.", FONT, WIDTH // 2, 220, text_alpha, center = True)
 
 
@@ -851,6 +850,22 @@ def main():
             if len(revealed) == len(CONSTELLATIONS) and not all_signs_shown and message["timer"] == 0:
                 all_signs_shown = True
                 show_message(message, "All 12 signs are with you now... and the sky is shining only for you.", 360)
+
+                
+            if len(revealed) == len(CONSTELLATIONS) and revealed[-1]["age"] > REVEAL_FRAMES:
+                gift_timer += 1
+                if gift_timer % WAVE_GAP == 1 and gift_timer < WAVE_GAP * 12:
+                    if chimes and sound_on:
+                        chimes[(gift_timer // WAVE_GAP) % len(chimes)].play()
+                if MOON_FILL_START < gift_timer <= MOON_FILL_START + MOON_FILL_FRAMES:
+                    fill = (gift_timer - MOON_FILL_START) / MOON_FILL_FRAMES
+                    smooth = fill * fill * (3 - 2 * fill)
+                    phase_now = shown_phase + (0.5 - shown_phase) * smooth
+                    moon_disc = shade_moon(make_moon_disc(), phase_now)
+                    moon_light = start_light + (1.15 - start_light) * smooth
+                    if gift_timer == MOON_FILL_START + MOON_FILL_FRAMES:
+                        moon_label = "a full moon- just for you~"
+                        show_message(message, "The moon brightened up...just how you lit up others' lives", 360)
                 
         if ending:
             end_timer += 1
@@ -864,7 +879,7 @@ def main():
         screen.blit(sky, (0, 0))
         draw_twinkle_stars(screen, twinkle_stars)
         for entry in revealed:
-            draw_constellation(screen, entry, entry["index"] == len(revealed) - 1)
+            draw_constellation(screen, entry, entry["index"] == len(revealed) - 1, sign_shine(entry["index"], gift_timer))
         draw_moon(screen, moon_disc, moon_pulse, moon_light)
         for cloud in clouds:
                 draw_cloud(screen, cloud)
