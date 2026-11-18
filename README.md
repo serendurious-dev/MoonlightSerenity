@@ -21,20 +21,20 @@ Most games punish you when you miss: your XP drops, a life is lost, a red screen
 ## What it does
 
 - **A realistic night sky:** a deep gradient, a faint Milky Way, hundreds of dim stars and slowly twinkling bright ones, wispy drifting clouds, and a moon with a softly breathing halo.
-- **The real moon:** the moon matches tonight's actual phase, worked out from today's date, with a small label beneath it.
+- **The real moon:** the moon matches tonight's actual phase, worked out from today's date, with a small label beneath it. Even on a new moon, a thin crescent and its soft halo stay in the sky.
 - **Falling stars to catch:** some drift, some streak. Catching one releases a soft ring of light, glitter that floats upward, and a gentle music-box chime.
 - **Kind words, never punishment:** missed stars leave a soft glow on the horizon, and sometimes the sky says something kind.
 - **The twelve zodiac constellations:** every 8 wishes, the next sign traces itself line by line, starting with Pisces.
-- **An aurora:** once all twelve signs are in your sky, green and violet curtains of light slowly sway above them.
+- **A gift from the sky:** once all twelve signs are in your sky, they light up one after another, each with a soft chime, and then the moon slowly fills into a full moon, just for you.
 - **A breathing guide:** press **B** for a glowing circle that grows as you breathe in (4 s) and shrinks as you breathe out (6 s).
-- **A sunrise goodbye:** leaving starts an 8-second dawn. The sky warms, the sun rises from behind the hills, the moon fades to a pale morning moon, and a small flock of birds flies across.
+- **A sunrise goodbye:** leaving starts an 8-second dawn. The sky warms, the sun rises from behind the hills, the moon gently fades away, and a small flock of birds flies across.
 - **Gentle music:** a soft piano track loops quietly in the background. The game also works perfectly without it.
 
 ## Look
 
-| Night sky | All twelve signs and the aurora |
+| Night sky | The sky's gift: a full moon |
 |---|---|
-| ![Night sky with constellations](docs/screenshots/night-sky.png) | ![Aurora above the twelve constellations](docs/screenshots/aurora.png) |
+| ![Night sky with constellations](docs/screenshots/night-sky.png) | ![A full moon above all twelve constellations](docs/screenshots/full-moon.png) |
 
 | Breathing guide | Sunrise |
 |---|---|
@@ -71,7 +71,8 @@ A few things I'm proud of:
 - **Glow cache:** every soft glow is drawn once and stored in a dictionary keyed by `(radius, color)`, then reused every frame. This is why the game stays smooth.
 - **Chimes without a sound file:** each note is generated from sine waves that fade out with `math.exp`, using a pentatonic scale so random notes never clash.
 - **Real moon phase:** days since a known new moon, `%` the 29.53-day lunar cycle, then the terminator is shaded row by row with `math.cos`.
-- **Hills and aurora:** both are sums of sine waves.
+- **Hills:** each column's height is a sum of sine waves.
+- **The glow wave:** each sign's brightness follows `math.sin`, starting half a second after the one before it.
 
 There's a full walkthrough in [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md).
 
@@ -103,7 +104,8 @@ The code is released under the [MIT License](LICENSE). The background music belo
 
 - **v1.0:** night sky, falling stars, kind messages, zodiac constellations
 - **v1.1:** sunrise ending with hills, clouds and birds
-- **v1.2:** catch chimes, real moon phase, breathing guide, aurora
+- **v1.2:** catch chimes, real moon phase, breathing guide
+- **v1.3:** a gift after all twelve signs (glow wave and full moon), a softer sky
 - **Someday:** shooting-star wishes you can type, seasons, rain nights
 
 ---

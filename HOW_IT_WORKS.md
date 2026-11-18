@@ -24,7 +24,7 @@ Each kind of object gets three small functions:
 
 1. **Input:** read keyboard and window events (P, M, B, Esc).
 2. **Update:** spawn stars, move everything, check catches, then remove finished things with list comprehensions.
-3. **Draw, back to front:** sky → aurora → twinkling stars → constellations → moon → clouds → tails and rings → stars → particles → player → HUD and messages → sunrise (when leaving) → `pygame.display.flip()`.
+3. **Draw, back to front:** sky → twinkling stars → constellations → moon → clouds → tails and rings → stars → particles → player → HUD and messages → sunrise (when leaving) → `pygame.display.flip()`.
 
 One frame is 1/60 of a second, so all timings are counted in frames. For example, `REVEAL_FRAMES = 240` is 4 seconds.
 
@@ -77,15 +77,20 @@ days  = (now - KNOWN_NEW_MOON).total_seconds() / 86400
 phase = (days % 29.530588853) / 29.530588853        # 0 = new, 0.5 = full
 ```
 
-The moon is shaded **row by row**. On each row, `half = √(R² − y²)` is the half-width, and `half · cos(2π · phase)` is where light meets shadow. The dark side gets a see-through navy, so a faint "earthshine" stays visible. A thin crescent's halo glows less.
+The moon is shaded **row by row**. On each row, `half = √(R² − y²)` is the half-width, and `half · cos(2π · phase)` is where light meets shadow. The dark side gets a see-through navy, so a faint "earthshine" stays visible.
+
+The label always shows the real phase, but the drawn phase is clamped with `min(max(phase, 0.07), 0.93)`, so even on a new moon a thin crescent stays visible. The halo never drops below 80% brightness, because it's what lights up the whole sky.
 
 ## Breathing guide (v1.2)
 
 `timer % 600` repeats every 10 seconds: 240 frames growing (breathe in), then 360 shrinking (breathe out). The smoothstep curve `t² (3 − 2t)` makes the circle start and stop gently. A longer breath out is what calms the body.
 
-## Aurora (v1.2)
+## The sky's gift (v1.3)
 
-One thin strip of light is pre-drawn, violet at the top and green near the bottom. Each frame it's drawn every 4 pixels across the screen. Each copy is moved up and down by two sine waves and brightened by a third. All three depend on a slowly growing `drift`, so the curtain sways.
+Once the last sign has finished drawing itself, `gift_timer` starts counting.
+
+- **Glow wave:** sign *i* starts glowing at `i * WAVE_GAP` frames. Its `shine` is `sin(t · π)` as `t` goes from 0 to 1, a soft swell up and back down. While it shines, its lines are `blend()`-ed toward a bright blue-white and each star gets an extra glow. A chime plays as each sign lights, going up the pentatonic scale.
+- **Full moon:** after the wave, the moon's phase is moved from tonight's phase toward 0.5 (full) with smoothstep, and the disc is re-shaded each frame from a fresh `make_moon_disc()`. The halo brightens a little, the label changes, and a kind message appears.
 
 ## Sunrise (v1.1)
 
@@ -93,6 +98,7 @@ Pressing Esc doesn't quit. It sets `ending = True` and starts `end_timer`. Over 
 
 - the dawn gradient fades in over the night with `set_alpha`
 - the sun (three layered glows) rises from behind the hills
+- the moon fades away completely (its alpha goes from 255 to 0)
 - the hills are drawn column by column, with each column's height a **sum of three sine waves**
 - birds are 3 points joined by lines, with wing tips that flap by `sin(phase)`
 - the closing words fade in
@@ -107,6 +113,8 @@ The game closes 3 seconds after the sun is up, or right away if Esc is pressed a
 | `STARS_PER_CONSTELLATION` | wishes needed per sign |
 | `REVEAL_FRAMES` | how slowly a sign draws itself |
 | `SUNRISE_FRAMES` | length of the sunrise |
+| `WAVE_GAP`, `WAVE_GLOW` | timing of the glow wave |
+| `MOON_FILL_FRAMES` | how slowly the moon becomes full |
 | `MUSIC_VOLUME`, `CHIME_VOLUME` | loudness |
 | `BREATHE_IN`, `BREATHE_OUT` | breathing rhythm (in frames) |
 | `MISS_MESSAGES` | the kind words the sky says |

@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3: a gift from the sky
+- After all twelve constellations, the signs light up one by one with a soft rising chime, then the moon slowly fills into a full moon
+- The moon always shows at least a thin crescent and keeps its soft halo, so the sky stays bright on new-moon nights (the label still shows the real phase)
+- The moon now fades away completely at sunrise
+- Removed the aurora: it made the sky feel crowded instead of calm
+
 ## v1.2: small comforts
 - Soft music-box chime on every caught star, generated from sine waves (pentatonic, so notes never clash)
 - The moon now matches tonight's real phase, with a label underneath
